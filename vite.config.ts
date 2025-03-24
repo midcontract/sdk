@@ -27,7 +27,7 @@ module.exports = defineConfig({
   build: {
     outDir: "./dist",
     lib: {
-      entry: path.resolve(__dirname, "sdk/index.ts"),
+      entry: path.resolve(__dirname, "src/index.ts"),
       name: packageNameToCamelCase(),
       formats,
       fileName: format => fileName[format as keyof typeof fileName],
@@ -36,7 +36,7 @@ module.exports = defineConfig({
   test: {},
   resolve: {
     alias: [
-      { find: "@", replacement: path.resolve(__dirname, "sdk") },
+      { find: "@", replacement: path.resolve(__dirname, "src") },
     ],
   },
 });
