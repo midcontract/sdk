@@ -982,47 +982,125 @@ export const hourlyAbiBeta = [
 
 export const hourlyAbiProd = [
   { inputs: [], name: "Escrow__AlreadyInitialized", type: "error" },
-  { inputs: [], name: "Escrow__AuthorizationExpired", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__AuthorizationExpired",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__BlacklistedAccount", type: "error" },
-  { inputs: [], name: "Escrow__ContractIdAlreadyExists", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__ContractIdAlreadyExists",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__ContractorMismatch", type: "error" },
-  { inputs: [], name: "Escrow__CreateDisputeNotAllowed", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__CreateDisputeNotAllowed",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__DisputeNotActiveForThisDeposit", type: "error" },
-  { inputs: [], name: "Escrow__FeeTooHigh", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__FeeTooHigh",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InsufficientPrepayment", type: "error" },
-  { inputs: [], name: "Escrow__InvalidAmount", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidAmount",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InvalidContractId", type: "error" },
-  { inputs: [], name: "Escrow__InvalidContractorDataHash", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidContractorDataHash",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InvalidFeeConfig", type: "error" },
-  { inputs: [], name: "Escrow__InvalidRange", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidRange",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InvalidSignature", type: "error" },
-  { inputs: [], name: "Escrow__InvalidStatusForApprove", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidStatusForApprove",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InvalidStatusForSubmit", type: "error" },
-  { inputs: [], name: "Escrow__InvalidStatusProvided", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidStatusProvided",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InvalidStatusToClaim", type: "error" },
-  { inputs: [], name: "Escrow__InvalidStatusToWithdraw", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidStatusToWithdraw",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__InvalidWeekId", type: "error" },
-  { inputs: [], name: "Escrow__InvalidWinnerSpecified", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__InvalidWinnerSpecified",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__NoDepositsProvided", type: "error" },
-  { inputs: [], name: "Escrow__NoFundsAvailableForWithdraw", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__NoFundsAvailableForWithdraw",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__NoReturnRequested", type: "error" },
-  { inputs: [], name: "Escrow__NotApproved", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__NotApproved",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__NotEnoughDeposit", type: "error" },
-  { inputs: [], name: "Escrow__NotSetFeeManager", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__NotSetFeeManager",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__NotSupportedPaymentToken", type: "error" },
-  { inputs: [], name: "Escrow__OutOfRange", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__OutOfRange",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__PaymentTokenMismatch", type: "error" },
-  { inputs: [], name: "Escrow__ResolutionExceedsDepositedAmount", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__ResolutionExceedsDepositedAmount",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__ReturnNotAllowed", type: "error" },
   {
-    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
     name: "Escrow__UnauthorizedAccount",
     type: "error",
   },
   { inputs: [], name: "Escrow__UnauthorizedReceiver", type: "error" },
-  { inputs: [], name: "Escrow__UnauthorizedToApproveDispute", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__UnauthorizedToApproveDispute",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__UnauthorizedToApproveReturn", type: "error" },
-  { inputs: [], name: "Escrow__ZeroAddressProvided", type: "error" },
+  {
+    inputs: [],
+    name: "Escrow__ZeroAddressProvided",
+    type: "error",
+  },
   { inputs: [], name: "Escrow__ZeroDepositAmount", type: "error" },
   {
     anonymous: false,
@@ -1034,9 +1112,19 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "approver", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "weekId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "amountApprove", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amountApprove",
+        type: "uint256",
+      },
       { indexed: false, internalType: "address", name: "receiver", type: "address" },
     ],
     name: "Approved",
@@ -1045,13 +1133,33 @@ export const hourlyAbiProd = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "contractor", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "contractor",
+        type: "address",
+      },
       { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "startWeekId", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "startWeekId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "endWeekId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "totalClaimedAmount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "totalClaimedAmount",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "totalFeeAmount", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "totalClientFee", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "totalClientFee",
+        type: "uint256",
+      },
       { indexed: true, internalType: "address", name: "client", type: "address" },
     ],
     name: "BulkClaimed",
@@ -1060,11 +1168,26 @@ export const hourlyAbiProd = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "contractor", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "contractor",
+        type: "address",
+      },
       { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "weekId", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "weekId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "feeAmount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "feeAmount",
+        type: "uint256",
+      },
       { indexed: true, internalType: "address", name: "client", type: "address" },
     ],
     name: "Claimed",
@@ -1073,7 +1196,12 @@ export const hourlyAbiProd = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "previousOwner", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
       { indexed: true, internalType: "address", name: "newOwner", type: "address" },
     ],
     name: "ClientOwnershipTransferred",
@@ -1082,9 +1210,19 @@ export const hourlyAbiProd = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: true, internalType: "address", name: "previousOwner", type: "address" },
-      { indexed: true, internalType: "address", name: "newOwner", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
     ],
     name: "ContractorOwnershipTransferred",
     type: "event",
@@ -1093,9 +1231,19 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "weekId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "totalDepositAmount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "totalDepositAmount",
+        type: "uint256",
+      },
       { indexed: true, internalType: "address", name: "contractor", type: "address" },
     ],
     name: "Deposited",
@@ -1105,9 +1253,19 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "weekId", type: "uint256" },
-      { indexed: true, internalType: "address", name: "client", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "client",
+        type: "address",
+      },
     ],
     name: "DisputeCreated",
     type: "event",
@@ -1116,11 +1274,26 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "approver", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "weekId", type: "uint256" },
-      { indexed: false, internalType: "enum Enums.Winner", name: "winner", type: "uint8" },
+      {
+        indexed: false,
+        internalType: "enum Enums.Winner",
+        name: "winner",
+        type: "uint8",
+      },
       { indexed: false, internalType: "uint256", name: "clientAmount", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "contractorAmount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "contractorAmount",
+        type: "uint256",
+      },
       { indexed: true, internalType: "address", name: "client", type: "address" },
     ],
     name: "DisputeResolved",
@@ -1130,7 +1303,12 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "RefilledPrepayment",
@@ -1140,9 +1318,19 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "weekId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
     name: "RefilledWeekPayment",
     type: "event",
@@ -1157,7 +1345,12 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "approver", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
       { indexed: true, internalType: "address", name: "client", type: "address" },
     ],
     name: "ReturnApproved",
@@ -1167,7 +1360,12 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
     ],
     name: "ReturnCanceled",
     type: "event",
@@ -1176,7 +1374,12 @@ export const hourlyAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
-      { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contractId",
+        type: "uint256",
+      },
     ],
     name: "ReturnRequested",
     type: "event",
@@ -1184,9 +1387,19 @@ export const hourlyAbiProd = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "withdrawer", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "withdrawer",
+        type: "address",
+      },
       { indexed: true, internalType: "uint256", name: "contractId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint256", name: "feeAmount", type: "uint256" },
     ],
     name: "Withdrawn",
@@ -1195,9 +1408,17 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_weekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_weekId",
+        type: "uint256",
+      },
       { internalType: "uint256", name: "_amountApprove", type: "uint256" },
-      { internalType: "address", name: "_receiver", type: "address" },
+      {
+        internalType: "address",
+        name: "_receiver",
+        type: "address",
+      },
       { internalType: "bool", name: "_initializeNewWeek", type: "bool" },
     ],
     name: "adminApprove",
@@ -1215,9 +1436,17 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_weekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_weekId",
+        type: "uint256",
+      },
       { internalType: "uint256", name: "_amountApprove", type: "uint256" },
-      { internalType: "address", name: "_receiver", type: "address" },
+      {
+        internalType: "address",
+        name: "_receiver",
+        type: "address",
+      },
     ],
     name: "approve",
     outputs: [],
@@ -1241,7 +1470,11 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_weekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_weekId",
+        type: "uint256",
+      },
     ],
     name: "claim",
     outputs: [],
@@ -1251,7 +1484,11 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_startWeekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_startWeekId",
+        type: "uint256",
+      },
       { internalType: "uint256", name: "_endWeekId", type: "uint256" },
     ],
     name: "claimAll",
@@ -1271,10 +1508,22 @@ export const hourlyAbiProd = [
     name: "contractDetails",
     outputs: [
       { internalType: "address", name: "contractor", type: "address" },
-      { internalType: "address", name: "paymentToken", type: "address" },
+      {
+        internalType: "address",
+        name: "paymentToken",
+        type: "address",
+      },
       { internalType: "uint256", name: "prepaymentAmount", type: "uint256" },
-      { internalType: "uint256", name: "amountToWithdraw", type: "uint256" },
-      { internalType: "enum Enums.FeeConfig", name: "feeConfig", type: "uint8" },
+      {
+        internalType: "uint256",
+        name: "amountToWithdraw",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Enums.FeeConfig",
+        name: "feeConfig",
+        type: "uint8",
+      },
       { internalType: "enum Enums.Status", name: "status", type: "uint8" },
     ],
     stateMutability: "view",
@@ -1290,7 +1539,11 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_weekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_weekId",
+        type: "uint256",
+      },
     ],
     name: "createDispute",
     outputs: [],
@@ -1301,15 +1554,35 @@ export const hourlyAbiProd = [
     inputs: [
       {
         components: [
-          { internalType: "uint256", name: "contractId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "contractId",
+            type: "uint256",
+          },
           { internalType: "address", name: "contractor", type: "address" },
-          { internalType: "address", name: "paymentToken", type: "address" },
+          {
+            internalType: "address",
+            name: "paymentToken",
+            type: "address",
+          },
           { internalType: "uint256", name: "prepaymentAmount", type: "uint256" },
-          { internalType: "uint256", name: "amountToClaim", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "amountToClaim",
+            type: "uint256",
+          },
           { internalType: "enum Enums.FeeConfig", name: "feeConfig", type: "uint8" },
-          { internalType: "address", name: "escrow", type: "address" },
+          {
+            internalType: "address",
+            name: "escrow",
+            type: "address",
+          },
           { internalType: "uint256", name: "expiration", type: "uint256" },
-          { internalType: "bytes", name: "signature", type: "bytes" },
+          {
+            internalType: "bytes",
+            name: "signature",
+            type: "bytes",
+          },
         ],
         internalType: "struct IEscrowHourly.DepositRequest",
         name: "_deposit",
@@ -1324,13 +1597,29 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "address", name: "_client", type: "address" },
-      { internalType: "uint256", name: "_contractId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_contractId",
+        type: "uint256",
+      },
       { internalType: "address", name: "_contractor", type: "address" },
-      { internalType: "address", name: "_paymentToken", type: "address" },
+      {
+        internalType: "address",
+        name: "_paymentToken",
+        type: "address",
+      },
       { internalType: "uint256", name: "_prepaymentAmount", type: "uint256" },
-      { internalType: "uint256", name: "_amountToClaim", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_amountToClaim",
+        type: "uint256",
+      },
       { internalType: "enum Enums.FeeConfig", name: "_feeConfig", type: "uint8" },
-      { internalType: "uint256", name: "_expiration", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_expiration",
+        type: "uint256",
+      },
     ],
     name: "getDepositHash",
     outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
@@ -1347,7 +1636,11 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "address", name: "_client", type: "address" },
-      { internalType: "address", name: "_adminManager", type: "address" },
+      {
+        internalType: "address",
+        name: "_adminManager",
+        type: "address",
+      },
       { internalType: "address", name: "_registry", type: "address" },
     ],
     name: "initialize",
@@ -1365,7 +1658,11 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "bytes32", name: "_hash", type: "bytes32" },
-      { internalType: "bytes", name: "_signature", type: "bytes" },
+      {
+        internalType: "bytes",
+        name: "_signature",
+        type: "bytes",
+      },
     ],
     name: "isValidSignature",
     outputs: [{ internalType: "bytes4", name: "", type: "bytes4" }],
@@ -1382,9 +1679,17 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_weekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_weekId",
+        type: "uint256",
+      },
       { internalType: "uint256", name: "_amount", type: "uint256" },
-      { internalType: "enum Enums.RefillType", name: "_type", type: "uint8" },
+      {
+        internalType: "enum Enums.RefillType",
+        name: "_type",
+        type: "uint8",
+      },
     ],
     name: "refill",
     outputs: [],
@@ -1408,9 +1713,17 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "uint256", name: "_weekId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_weekId",
+        type: "uint256",
+      },
       { internalType: "enum Enums.Winner", name: "_winner", type: "uint8" },
-      { internalType: "uint256", name: "_clientAmount", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_clientAmount",
+        type: "uint256",
+      },
       { internalType: "uint256", name: "_contractorAmount", type: "uint256" },
     ],
     name: "resolveDispute",
@@ -1428,7 +1741,11 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "_contractId", type: "uint256" },
-      { internalType: "address", name: "_newAccount", type: "address" },
+      {
+        internalType: "address",
+        name: "_newAccount",
+        type: "address",
+      },
     ],
     name: "transferContractorOwnership",
     outputs: [],
@@ -1452,11 +1769,19 @@ export const hourlyAbiProd = [
   {
     inputs: [
       { internalType: "uint256", name: "contractId", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
     name: "weeklyEntries",
     outputs: [
-      { internalType: "uint256", name: "amountToClaim", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "amountToClaim",
+        type: "uint256",
+      },
       { internalType: "enum Enums.Status", name: "weekStatus", type: "uint8" },
     ],
     stateMutability: "view",

@@ -9,7 +9,7 @@ import { feeManagerAbiTest } from "@/abi/FeeManager";
 
 export type Environment = "prod" | "beta" | "beta2" | "test";
 
-export type SymbolToken = "USDT" | "USDC" | "MockUSDT" | "MockDAI" | "MockUSDC";
+export type SymbolToken = "USDT" | "USDC" | "DAI" | "MockUSDT" | "MockDAI" | "MockUSDC";
 
 export type DataToken = {
   symbol: SymbolToken;
@@ -171,14 +171,14 @@ export const environmentList: EnvironmentList = {
     80_002: {
       chainName: ChainNameEnum.PolygonAmoy,
       escrow: {
-        ESCROW_FIX_PRICE: "0x8c7F5312f4c5993e5D3766C2E8d0a0A1c455290B",
-        ESCROW_MILESTONE: "0xEb9DD15Cc9B33c2D7747bc2500c92d36381E7003",
-        ESCROW_HOURLY: "0x4B92D1B0207210f66352615a57Ed11915BBeA0CE",
-        FACTORY: "0xE1a67dbA1FB4207c4E5dbB6C0bA9832290a4F98F",
-        REGISTRY: "0x5Bb26eF73D0Ce2a1060bEd3f42Ec50F247dFf61B",
-        FEE_MANAGER: "0x661855f5f3f6E4536b535d6C325ebb399889556c",
-        ADMIN_MANAGER: "0x501cbBCa63ea1f0cc9a490A33B60f08eCD2DAB27",
-        ADMIN: "0x3eAb900aC1E0de25F465c63717cD1044fF69243C",
+        ESCROW_FIX_PRICE: "0xF6582D871a9aCcf0Bfc18377b9cb93566194BeCf",
+        ESCROW_MILESTONE: "0xa68dF8f729b26b5BAD01b110923c214a243700A3",
+        ESCROW_HOURLY: "0xbC8AFFb4e35b5105162AaA48F70bcA44089F1626",
+        FACTORY: "0x15e779fa539f531a4b3a60c195f47cbCAE061D11",
+        REGISTRY: "0xA0c388fBd55531D2Dda8E2c2DF72aa9f8CEE73e5",
+        FEE_MANAGER: "0x378F9F07F704fd5fB3d904Bef8bAe1aF58424c31",
+        ADMIN_MANAGER: "0x20fE88728955Dc73d15a5005040d484E97A42e33",
+        ADMIN: "0x048253FeF27736A86B42b4F5Ce2874286FC1acaE",
         MOCK_PAYMENT_TOKEN: "0xD19AC10fE911d913Eb0B731925d3a69c80Bd6643",
         FIXED_PRICE_ABI: fixedPriceAbiBeta,
         MILESTONE_ABI: milestoneAbiBeta,
@@ -187,19 +187,19 @@ export const environmentList: EnvironmentList = {
         FEE_MANAGER_ABI: feeManagerAbiTest,
       },
       tokenList: {
-        MockUSDT: {
-          symbol: "MockUSDT",
-          address: "0xD19AC10fE911d913Eb0B731925d3a69c80Bd6643",
+        USDT: {
+          symbol: "USDT",
+          address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
           decimals: 6,
         },
-        MockDAI: {
-          symbol: "MockDAI",
-          address: "0xA0A8Ee7bF502EC4Eb5C670fE5c63092950dbB718",
+        DAI: {
+          symbol: "DAI",
+          address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
           decimals: 18,
         },
-        MockUSDC: {
-          symbol: "MockUSDC",
-          address: "0x2AFf4E62eC8A5798798a481258DE66d88fB6bbCb",
+        USDC: {
+          symbol: "USDC",
+          address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
           decimals: 6,
         },
       },

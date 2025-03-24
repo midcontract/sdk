@@ -335,19 +335,39 @@ export const factoryAbiBeta = [
 export const factoryAbiProd = [
   {
     inputs: [
-      { internalType: "address", name: "_adminManager", type: "address" },
+      {
+        internalType: "address",
+        name: "_adminManager",
+        type: "address",
+      },
       { internalType: "address", name: "_registry", type: "address" },
-      { internalType: "address", name: "_owner", type: "address" },
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
   { inputs: [], name: "ETHTransferFailed", type: "error" },
-  { inputs: [], name: "EnforcedPause", type: "error" },
+  {
+    inputs: [],
+    name: "EnforcedPause",
+    type: "error",
+  },
   { inputs: [], name: "ExpectedPause", type: "error" },
-  { inputs: [], name: "InvalidEscrowType", type: "error" },
+  {
+    inputs: [],
+    name: "InvalidEscrowType",
+    type: "error",
+  },
   { inputs: [], name: "Unauthorized", type: "error" },
-  { inputs: [], name: "ZeroAddressProvided", type: "error" },
+  {
+    inputs: [],
+    name: "ZeroAddressProvided",
+    type: "error",
+  },
   {
     anonymous: false,
     inputs: [{ indexed: false, internalType: "address", name: "adminManager", type: "address" }],
@@ -357,7 +377,12 @@ export const factoryAbiProd = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "receiver", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
       { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "ETHWithdrawn",
@@ -367,7 +392,12 @@ export const factoryAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: false, internalType: "address", name: "sender", type: "address" },
-      { indexed: false, internalType: "address", name: "deployedProxy", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "deployedProxy",
+        type: "address",
+      },
       { indexed: false, internalType: "enum Enums.EscrowType", name: "escrowType", type: "uint8" },
     ],
     name: "EscrowProxyDeployed",
@@ -377,7 +407,12 @@ export const factoryAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "user", type: "address" },
-      { indexed: true, internalType: "address", name: "ownerCandidate", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "ownerCandidate",
+        type: "address",
+      },
     ],
     name: "OwnerUpdateInitiated",
     type: "event",
@@ -386,7 +421,12 @@ export const factoryAbiProd = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "user", type: "address" },
-      { indexed: true, internalType: "address", name: "newOwner", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
     ],
     name: "OwnershipTransferred",
     type: "event",
@@ -416,7 +456,13 @@ export const factoryAbiProd = [
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "confirmOwner", outputs: [], stateMutability: "payable", type: "function" },
+  {
+    inputs: [],
+    name: "confirmOwner",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
   {
     inputs: [{ internalType: "enum Enums.EscrowType", name: "_escrowType", type: "uint8" }],
     name: "deployEscrow",
@@ -452,7 +498,13 @@ export const factoryAbiProd = [
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "pause", outputs: [], stateMutability: "nonpayable", type: "function" },
+  {
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
   {
     inputs: [],
     name: "paused",
@@ -467,7 +519,13 @@ export const factoryAbiProd = [
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "renounceOwner", outputs: [], stateMutability: "payable", type: "function" },
+  {
+    inputs: [],
+    name: "renounceOwner",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
   {
     inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
@@ -475,7 +533,13 @@ export const factoryAbiProd = [
     stateMutability: "payable",
     type: "function",
   },
-  { inputs: [], name: "unpause", outputs: [], stateMutability: "nonpayable", type: "function" },
+  {
+    inputs: [],
+    name: "unpause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
   {
     inputs: [{ internalType: "address", name: "_adminManager", type: "address" }],
     name: "updateAdminManager",

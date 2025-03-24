@@ -1,18 +1,18 @@
 {
-  "name": "@midcontract/protocol",
-  "version": "1.0.0-rc.37",
-  "description": "Crypto payment protocol with escrow",
+  "name": "@midcontract/sdk",
+  "version": "1.0.0-rc.39",
+  "description": "Typescript SDK to interact with Midcontract contracts",
   "keywords": [
     "payment",
     "crypto",
     "escrow",
     "midcontract"
   ],
-  "homepage": "https://github.com/midcontract/protocol",
-  "bugs": "https://github.com/midcontract/protocol/issues",
+  "homepage": "https://github.com/midcontract/sdk",
+  "bugs": "https://github.com/midcontract/sdk/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/midcontract/protocol.git"
+    "url": "git+https://github.com/midcontract/sdk.git"
   },
   "license": "MIT",
   "author": {
