@@ -22,16 +22,16 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/midcontract-protocol.cjs",
-      "import": "./dist/midcontract-protocol.mjs"
+      "require": "./dist/midcontract-sdk.cjs",
+      "import": "./dist/midcontract-sdk.mjs"
     },
     "./dist/": {
       "import": "./dist/",
       "require": "./dist/"
     }
   },
-  "main": "./dist/midcontract-protocol.cjs",
-  "module": "./dist/midcontract-protocol.mjs",
+  "main": "./dist/midcontract-sdk.cjs",
+  "module": "./dist/midcontract-sdk.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*",
