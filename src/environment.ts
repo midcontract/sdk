@@ -49,6 +49,7 @@ export enum ChainNameEnum {
   Sepolia = "Sepolia",
   BlastSepolia = "BlastSepolia",
   PolygonAmoy = "PolygonAmoy",
+  PolygonMainnet = "PolygonMainnet",
 }
 
 export const environmentList: EnvironmentList = {

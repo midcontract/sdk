@@ -30,7 +30,7 @@ import {
   encodePacked,
 } from "viem";
 import { erc20Abi } from "abitype/abis";
-import { polygonAmoy } from "viem/chains";
+import { polygon, polygonAmoy } from "viem/chains";
 import type { Hex } from "viem/types/misc";
 import {
   contractList,
@@ -341,7 +341,7 @@ export class MidcontractProtocol {
         };
         break;
       case "prod":
-        chain = polygonAmoy;
+        chain = polygon;
         abiList = {
           fixedPriceAbi: fixedPriceAbiProd,
           milestoneAbi: milestoneAbiProd,
