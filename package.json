@@ -80,9 +80,8 @@
   },
   "dependencies": {
     "abitype": "^1.0.6",
-    "axios": "^1.7.7",
     "ethers": "^6.13.5",
-    "viem": "2.20.0"
+    "viem": "2.24.1"
   },
   "devDependencies": {
     "@openzeppelin/contracts": "^5.0.2",
