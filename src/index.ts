@@ -28,7 +28,7 @@ import {
   type TransactionReceipt,
   keccak256,
   encodePacked,
-} from 'viem';
+} from "viem";
 import { erc20Abi } from "abitype/abis";
 import { polygon, polygonAmoy } from "viem/chains";
 import type { Hex } from "viem/types/misc";
@@ -2560,29 +2560,20 @@ export class MidcontractProtocol {
 
     const nonce = await this.public.getTransactionCount({ address: this.account.address });
     // const chainId = await this.public.getChainId();
-    
-    const account = this.wallet.account;
-    if (!account) {
-      throw new NotSetError("account");
-    }
 
-    const preparedTransactionRequest = await this.wallet.prepareTransactionRequest({ 
-      account: account.address,
-      // from: this.account.address,
-      chain: this.wallet.chain,
+    const [account] = await this.wallet.getAddresses();
+
+    return this.wallet.sendTransaction({
+      account: account || this.account.address,
       to: input.address,
       data: encodedData,
+      chain: this.wallet.chain,
       gas: input.gas,
-      type: 'eip1559',
+      type: "eip1559",
       maxFeePerGas: input.maxFeePerGas,
       maxPriorityFeePerGas: input.maxPriorityFeePerGas,
       nonce,
     });
-    // @ts-ignore
-    const signedTx = await this.wallet.signTransaction(preparedTransactionRequest)
-    return this.wallet.sendRawTransaction({ serializedTransaction: signedTx });
-
-    // return this.wallet.writeContract(input);
   }
 
   private generateRandomNumber(): Hash {
