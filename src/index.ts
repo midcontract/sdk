@@ -391,26 +391,27 @@ export class MidcontractProtocol {
       }
     }
 
-    const originalRequest = provider.request.bind(provider);
-
-    provider.request = async (args: { method: string; params?: unknown }) => {
-      console.log("Provider request:", args.method, "Payload:", args);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      return originalRequest(args);
+    const wrappedProvider = {
+      request: async (args: { method: string; params: unknown }) => {
+        console.dir(args, { depth: 0 });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        await provider.request(args);
+      },
     };
+
     this.wallet = createWalletClient({
       account,
       chain: this.wallet.chain,
-      transport: custom(provider),
+      transport: custom(wrappedProvider),
     });
     this.public = createPublicClient({
       chain: this.public.chain,
-      transport: custom(provider),
+      transport: custom(wrappedProvider),
     });
 
     console.log(`Connected to wallet: ${account.address}`);
-    console.log(`Connected to wallet: ${this.wallet.chain}`);
+    console.dir(this.wallet.chain, { depth: 0 });
   }
 
   changeEscrow(escrow: Address): void {
