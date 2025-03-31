@@ -370,21 +370,6 @@ export class MidcontractProtocol {
     });
   }
 
-  private wrapProvider(provider: EIP1193Provider): EIP1193Provider {
-    return new Proxy(provider, {
-      get(target, prop, receiver) {
-        const orig = Reflect.get(target, prop, receiver);
-        if (prop === "request" && typeof orig === "function") {
-          return async (args: { method: string; params?: never[] }) => {
-            console.log("Provider request:", args.method, "Payload:", args);
-            return orig.call(target, args);
-          };
-        }
-        return orig;
-      },
-    });
-  }
-
   async changeProvider(provider: EIP1193Provider): Promise<void> {
     const accounts = await provider.request({ method: "eth_accounts" });
     if (accounts.length == 0) {
@@ -406,14 +391,22 @@ export class MidcontractProtocol {
       }
     }
 
+    const originalRequest = provider.request.bind(provider);
+
+    provider.request = async (args: { method: string; params?: unknown }) => {
+      console.log("Provider request:", args.method, "Payload:", args);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      return originalRequest(args);
+    };
     this.wallet = createWalletClient({
       account,
       chain: this.wallet.chain,
-      transport: custom(this.wrapProvider(provider)),
+      transport: custom(provider),
     });
     this.public = createPublicClient({
       chain: this.public.chain,
-      transport: custom(this.wrapProvider(provider)),
+      transport: custom(provider),
     });
 
     console.log(`Connected to wallet: ${account.address}`);
