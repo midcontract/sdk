@@ -2537,7 +2537,10 @@ export class MidcontractProtocol {
       params: [tx],
     });
 
-    input.gas = BigInt(estimatedGasLimit) + (BigInt(estimatedGasLimit) * BigInt(50)) / BigInt(100);
+    const needsExtraBuffer = input.functionName === "approve";
+    const bufferMultiplier = needsExtraBuffer ? 170n : 150n;
+
+    input.gas = (BigInt(estimatedGasLimit) * bufferMultiplier) / BigInt(100);
 
     const latestBlock = await this.public.request({
       method: "eth_getBlockByNumber",
