@@ -2538,7 +2538,7 @@ export class MidcontractProtocol {
     });
 
     const needsExtraBuffer = input.functionName === "approve";
-    const bufferMultiplier = needsExtraBuffer ? 170n : 150n;
+    const bufferMultiplier = needsExtraBuffer ? 180n : 160n;
 
     input.gas = (BigInt(estimatedGasLimit) * bufferMultiplier) / BigInt(100);
 
