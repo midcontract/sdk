@@ -10,7 +10,6 @@ import {
   type CustomTransport,
   decodeFunctionData,
   type EIP1193Provider,
-  encodeFunctionData,
   formatUnits,
   type Hash,
   http,
@@ -28,6 +27,7 @@ import {
   type TransactionReceipt,
   keccak256,
   encodePacked,
+  encodeFunctionData,
 } from "viem";
 import { erc20Abi } from "abitype/abis";
 import { polygon, polygonAmoy } from "viem/chains";
@@ -60,6 +60,8 @@ import { milestoneAbiBeta, milestoneAbiProd, milestoneAbiTest } from "@/abi/Escr
 import { hourlyAbiBeta, hourlyAbiProd, hourlyAbiTest } from "@/abi/EscrowHourly";
 import { feeManagerAbiBeta, feeManagerAbiProd, feeManagerAbiTest } from "@/abi/FeeManager";
 import { embeddedAbi, lightAccountAbi } from "@/abi/Embedded";
+import { readContract } from "viem/actions";
+import axios from "axios";
 
 export interface DepositAmount {
   totalDepositAmount: number;
@@ -245,6 +247,11 @@ export enum EscrowType {
   Hourly,
 }
 
+export enum WalletType {
+  EXTERNAL = "EXTERNAL",
+  EMBEDDED = "EMBEDDED",
+}
+
 export interface AbiFunction {
   name: string;
   inputs: { components: { type: string }[] }[];
@@ -271,6 +278,7 @@ export class MidcontractProtocol {
   public hourlyAbi: [];
   public feeManagerAbi: [];
   public factoryAbi: [];
+  public walletType: WalletType;
   public environment: Environment;
   private transactionStorage: Map<string, number> = new Map();
 
@@ -280,7 +288,8 @@ export class MidcontractProtocol {
     contractList: ContractList,
     abiList: AbiList,
     environment: Environment,
-    account?: Account
+    account?: Account,
+    isEmbedded?: boolean
   ) {
     this.contractList = contractList;
     this.wallet = createWalletClient({
@@ -303,9 +312,15 @@ export class MidcontractProtocol {
     this.feeManagerAbi = abiList.feeManagerAbi as [];
     this.factoryAbi = abiList.factoryAbi as [];
     this.environment = environment;
+    this.walletType = isEmbedded ? WalletType.EMBEDDED : WalletType.EXTERNAL;
   }
 
-  static buildByEnvironment(name: Environment = "test", account?: Account, url?: string): MidcontractProtocol {
+  static buildByEnvironment(
+    name: Environment = "test",
+    account?: Account,
+    url?: string,
+    isEmbedded?: boolean
+  ): MidcontractProtocol {
     let chain = polygonAmoy as Chain;
     const contracts = contractList(name, chain.id);
     let abiList: AbiList;
@@ -358,7 +373,7 @@ export class MidcontractProtocol {
         default: { http: [url] },
       } as const;
     }
-    return new MidcontractProtocol(chain, transport, contracts, abiList, name, account);
+    return new MidcontractProtocol(chain, transport, contracts, abiList, name, account, isEmbedded);
   }
 
   /** @deprecated */
@@ -370,7 +385,7 @@ export class MidcontractProtocol {
     });
   }
 
-  async changeProvider(provider: EIP1193Provider): Promise<void> {
+  async changeProvider(provider: EIP1193Provider, isExternalProvider?: boolean, url?: string): Promise<void> {
     const accounts = await provider.request({ method: "eth_accounts" });
     if (accounts.length == 0) {
       throw new NotSetError("account");
@@ -390,13 +405,22 @@ export class MidcontractProtocol {
         throw new NotMatchError(`chainId ${providerChainId} provider and current chainId ${currentChainId}`);
       }
     }
+
+    if (isExternalProvider) {
+      this.public = createPublicClient({
+        chain: this.public.chain,
+        transport: http(url),
+      });
+    } else {
+      this.public = createPublicClient({
+        chain: this.public.chain,
+        transport: custom(provider),
+      });
+    }
+
     this.wallet = createWalletClient({
       account,
       chain: this.wallet.chain,
-      transport: custom(provider),
-    });
-    this.public = createPublicClient({
-      chain: this.public.chain,
       transport: custom(provider),
     });
   }
@@ -506,7 +530,7 @@ export class MidcontractProtocol {
   }
 
   async getDepositList(contractId: bigint): Promise<Deposit> {
-    const data = await this.public.readContract({
+    const data = await readContract(this.public, {
       address: this.escrow,
       args: [contractId],
       abi: this.fixedPriceAbi,
@@ -532,14 +556,14 @@ export class MidcontractProtocol {
   }
 
   async getDepositListMilestone(contractId: bigint, milestoneId: bigint): Promise<Deposit> {
-    const contractMilestones = await this.public.readContract({
+    const contractMilestones = await readContract(this.public, {
       address: this.escrow,
       args: [contractId, milestoneId],
       abi: this.milestoneAbi,
       functionName: "contractMilestones",
     });
 
-    const milestoneData = await this.public.readContract({
+    const milestoneData = await readContract(this.public, {
       address: this.escrow,
       args: [contractId, milestoneId],
       abi: this.milestoneAbi,
@@ -565,14 +589,14 @@ export class MidcontractProtocol {
   }
 
   async getDepositListHourly(contractId: bigint, weekId: bigint): Promise<Deposit> {
-    const contractDetails = await this.public.readContract({
+    const contractDetails = await readContract(this.public, {
       address: this.escrow,
       args: [contractId],
       abi: this.hourlyAbi,
       functionName: "contractDetails",
     });
 
-    const data = await this.public.readContract({
+    const data = await readContract(this.public, {
       address: this.escrow,
       args: [contractId, weekId],
       abi: this.hourlyAbi,
@@ -598,7 +622,7 @@ export class MidcontractProtocol {
   }
 
   async currentContractId(): Promise<bigint> {
-    return this.public.readContract({
+    return readContract(this.public, {
       address: this.escrow,
       abi: this.fixedPriceAbi,
       functionName: "getCurrentContractId",
@@ -606,7 +630,7 @@ export class MidcontractProtocol {
   }
 
   async currentContractIdMilestone(): Promise<bigint> {
-    return this.public.readContract({
+    return readContract(this.public, {
       address: this.escrow,
       abi: this.milestoneAbi,
       functionName: "getCurrentContractId",
@@ -614,7 +638,7 @@ export class MidcontractProtocol {
   }
 
   async currentContractIdHourly(): Promise<bigint> {
-    return this.public.readContract({
+    return readContract(this.public, {
       address: this.escrow,
       abi: this.milestoneAbi,
       functionName: "getCurrentContractId",
@@ -642,7 +666,8 @@ export class MidcontractProtocol {
 
   private async tokenAllowance(account: Address, symbol: SymbolToken = "MockUSDT"): Promise<number> {
     const token: DataToken = this.dataToken(symbol);
-    const allowance = await this.public.readContract({
+    console.log("RPC used for token allowance-> ", this.public.transport["url"]);
+    const allowance = await readContract(this.public, {
       abi: erc20Abi,
       address: token.address,
       account,
@@ -654,14 +679,13 @@ export class MidcontractProtocol {
 
   async tokenBalance(account: Address, symbol: SymbolToken = "MockUSDT"): Promise<number> {
     const token = this.dataToken(symbol);
-    const balance = await this.public.readContract({
+    const balance = await readContract(this.public, {
       abi: erc20Abi,
       address: token.address,
       account,
       args: [account],
       functionName: "balanceOf",
     });
-    // return 10000;
     return Number(formatUnits(balance, token.decimals));
   }
 
@@ -718,7 +742,7 @@ export class MidcontractProtocol {
 
   async escrowMakeDataHash(contractor: Hash, data: string, salt: Hash): Promise<Hash> {
     const encodedData = toHex(new TextEncoder().encode(data));
-    return await this.public.readContract({
+    return await readContract(this.public, {
       address: this.escrow,
       abi: this.fixedPriceAbi,
       args: [contractor, encodedData as Hash, salt],
@@ -2268,7 +2292,7 @@ export class MidcontractProtocol {
   }
 
   async hashMilestones(milestoneInput: HashMilestonesDepositInput[]): Promise<Hash> {
-    return await this.public.readContract({
+    return await readContract(this.public, {
       address: this.escrow,
       abi: this.milestoneAbi,
       account: this.account,
@@ -2520,48 +2544,56 @@ export class MidcontractProtocol {
   }
 
   private async send(input: WriteContractParameters): Promise<Hash> {
-    const inputData = (input.args as unknown[]).map(arg => {
-      return typeof arg === "number" ? BigInt(arg) : arg;
-    }) as never;
+    if (this.walletType === WalletType.EXTERNAL) {
+      const inputData = (input.args as unknown[]).map(arg => {
+        return typeof arg === "number" ? BigInt(arg) : arg;
+      }) as never;
 
-    const encodedData = encodeFunctionData({ abi: input.abi, functionName: input.functionName, args: inputData });
+      const encodedData = encodeFunctionData({ abi: input.abi, functionName: input.functionName, args: inputData });
 
-    const tx = {
-      from: this.account.address,
-      to: input.address,
-      data: encodedData,
-    };
+      const tx = {
+        from: this.account.address,
+        to: input.address,
+        data: encodedData,
+      };
 
-    const estimatedGasLimit: bigint = await this.public.request({
-      method: "eth_estimateGas",
-      params: [tx],
-    });
+      const estimatedGasLimit: bigint = await this.public.request({
+        method: "eth_estimateGas",
+        params: [tx],
+      });
 
-    const needsExtraBuffer = input.functionName === "approve";
-    const bufferMultiplier = needsExtraBuffer ? 180n : 160n;
+      const needsExtraBuffer = input.functionName === "approve";
+      const bufferMultiplier = needsExtraBuffer ? 180n : 160n;
 
-    input.gas = (BigInt(estimatedGasLimit) * bufferMultiplier) / BigInt(100);
+      input.gas = (BigInt(estimatedGasLimit) * bufferMultiplier) / BigInt(100);
 
-    const latestBlock = await this.public.request({
-      method: "eth_getBlockByNumber",
-      params: ["latest", false],
-    });
+      const { maxFeePerGas, maxPriorityFeePerGas } = await this.getGasPrice();
 
-    const baseFeePerGas = BigInt(latestBlock?.baseFeePerGas ? latestBlock.baseFeePerGas : input.gas);
+      input.maxPriorityFeePerGas = maxPriorityFeePerGas;
+      input.maxFeePerGas = maxFeePerGas;
 
-    const maxPriorityFeePerGas = 40_000_000_000n;
-
-    const maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas;
-
-    input.maxPriorityFeePerGas = maxPriorityFeePerGas;
-    input.maxFeePerGas = maxFeePerGas;
-
-    const transactionPrice = ((Number(maxFeePerGas) / 1000000000) * Number(input.gas)) / 1000000000;
-
-    console.log("method -> ", input.functionName);
-    console.log("Transaction Price ->", transactionPrice);
+      const transactionPrice = ((Number(maxFeePerGas) / 1000000000) * Number(input.gas)) / 1000000000;
+      console.log("method -> ", input.functionName);
+      console.log("Max fee per gas -> ", maxFeePerGas);
+      console.log("Max priority fee per gas -> ", maxPriorityFeePerGas);
+      console.log("Transaction price -> ", transactionPrice);
+    }
 
     return this.wallet.writeContract(input);
+  }
+
+  private async getGasPrice(): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint }> {
+    const gasStationUrl =
+      this.environment === "test" || this.environment === "beta" || this.environment === "beta2"
+        ? "https://gasstation.polygon.technology/amoy"
+        : "https://gasstation.polygon.technology/v2";
+
+    const gasStationResponse = await axios.get(gasStationUrl);
+
+    return {
+      maxFeePerGas: BigInt(gasStationResponse.data.fast.maxFee * 1000000000),
+      maxPriorityFeePerGas: BigInt(gasStationResponse.data.fast.maxPriorityFee * 1000000000),
+    };
   }
 
   private generateRandomNumber(): Hash {

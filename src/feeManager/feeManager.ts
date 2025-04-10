@@ -1,5 +1,15 @@
-import type { Account, Address, Hash, PublicClient, WalletClient, WriteContractParameters } from "viem";
+import {
+  type Account,
+  type Address,
+  ContractFunctionExecutionError,
+  type Hash,
+  type PublicClient,
+  type WalletClient,
+  type WriteContractParameters,
+} from "viem";
 import { FeeConfig } from "@/Deposit";
+import { readContract } from "viem/actions";
+import { CoreMidcontractProtocolError, SimulateError } from "@/Error";
 
 export class FeeManager {
   private readonly wallet: WalletClient;
@@ -74,7 +84,7 @@ export class FeeManager {
   }
 
   async computeDepositAmountAndFee(amount: bigint, configFee: FeeConfig = 1, escrowAddress: Address, contractId = 0n) {
-    const result = await this.public.readContract({
+    const result = await readContract(this.public, {
       address: this.feeManagerEscrow,
       abi: this.abi,
       account: this.account,
@@ -93,25 +103,35 @@ export class FeeManager {
     escrowAddress: Address,
     contractId = 0n
   ) {
-    const result = await this.public.readContract({
-      address: this.feeManagerEscrow,
-      abi: this.abi,
-      account: this.account,
-      args: [escrowAddress, contractId, this.account.address, amount, configFee],
-      functionName: "computeClaimableAmountAndFee",
-    });
-    return {
-      claimableAmount: Number(result[0]),
-      feeDeducted: Number(result[1]),
-      clientFee: Number(result[2]),
-    };
+    try {
+      console.log("RPC used for computeClaimableAmountAndFee-> ", this.public.transport["url"]);
+      const result = await readContract(this.public, {
+        address: this.feeManagerEscrow,
+        abi: this.abi,
+        account: this.account,
+        args: [escrowAddress, contractId, this.account.address, amount, configFee],
+        functionName: "computeClaimableAmountAndFee",
+      });
+      return {
+        claimableAmount: Number(result[0]),
+        feeDeducted: Number(result[1]),
+        clientFee: Number(result[2]),
+      };
+    } catch (error) {
+      console.log("Calling via client:", this.public.transport["url"]);
+      if (error instanceof ContractFunctionExecutionError) {
+        throw new SimulateError(error.message);
+      } else {
+        throw new CoreMidcontractProtocolError(JSON.stringify(error));
+      }
+    }
   }
 
   async getCoverageFee(escrowAddress: Address, wallet?: Hash, contractId = 0n) {
     const BPS = await this.getBPS();
     let coverageFee;
     if (wallet) {
-      const feeResponse: { coverage: bigint; claim: bigint } = await this.public.readContract({
+      const feeResponse: { coverage: bigint; claim: bigint } = await readContract(this.public, {
         address: this.feeManagerEscrow,
         abi: this.abi,
         account: this.account,
@@ -120,7 +140,7 @@ export class FeeManager {
       });
       coverageFee = feeResponse.coverage;
     } else {
-      const result = await this.public.readContract({
+      const result = await readContract(this.public, {
         address: this.feeManagerEscrow,
         abi: this.abi,
         functionName: "defaultFees",
@@ -136,7 +156,7 @@ export class FeeManager {
     const BPS = await this.getBPS();
     let claimFee;
     if (wallet) {
-      const feeResponse: { coverage: bigint; claim: bigint } = await this.public.readContract({
+      const feeResponse: { coverage: bigint; claim: bigint } = await readContract(this.public, {
         address: this.feeManagerEscrow,
         abi: this.abi,
         account: this.account,
@@ -145,7 +165,7 @@ export class FeeManager {
       });
       claimFee = feeResponse.claim;
     } else {
-      const result = await this.public.readContract({
+      const result = await readContract(this.public, {
         address: this.feeManagerEscrow,
         abi: this.abi,
         functionName: "defaultFees",
@@ -158,7 +178,7 @@ export class FeeManager {
   }
 
   async getBPS() {
-    const result = await this.public.readContract({
+    const result = await readContract(this.public, {
       address: this.feeManagerEscrow,
       abi: this.abi,
       account: this.account,
