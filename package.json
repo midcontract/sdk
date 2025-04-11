@@ -1,6 +1,6 @@
 {
   "name": "@midcontract/sdk",
-  "version": "1.0.0-rc.43",
+  "version": "1.0.0-rc.45",
   "description": "Typescript SDK to interact with Midcontract contracts",
   "keywords": [
     "payment",
