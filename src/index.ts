@@ -666,7 +666,6 @@ export class MidcontractProtocol {
 
   private async tokenAllowance(account: Address, symbol: SymbolToken = "MockUSDT"): Promise<number> {
     const token: DataToken = this.dataToken(symbol);
-    console.log("RPC used for token allowance-> ", this.public.transport["url"]);
     const allowance = await readContract(this.public, {
       abi: erc20Abi,
       address: token.address,
@@ -902,13 +901,10 @@ export class MidcontractProtocol {
 
   async escrowMilestoneDeposit(input: PreparedEscrowMilestoneDeposit, waitReceipt = true): Promise<DepositResponse> {
     const lastDepositTime = this.transactionStorage.get("lastMilestoneDepositTimestamp");
-    console.log("lastMilestoneDepositTimestamp got -> ", lastDepositTime);
 
     if (lastDepositTime && Date.now() - lastDepositTime < 30000) {
       throw new Error("You have recently submitted a deposit. Please wait before making another.");
     }
-
-    console.log("lastMilestoneDepositTimestamp checked -> ", lastDepositTime);
 
     try {
       const data = await this.public.simulateContract({
@@ -921,10 +917,8 @@ export class MidcontractProtocol {
       const hash = await this.send({ ...data.request });
       const dateNow = Date.now();
       this.transactionStorage.set("lastMilestoneDepositTimestamp", dateNow);
-      console.log("lastMilestoneDepositTimestamp set -> ", dateNow);
       const receipt = await this.getTransactionReceipt(hash, waitReceipt);
       this.transactionStorage.delete("lastMilestoneDepositTimestamp");
-      console.log("lastMilestoneDepositTimestamp removed -> ");
       return {
         id: hash,
         status: receipt ? receipt.status : "pending",
@@ -987,12 +981,10 @@ export class MidcontractProtocol {
 
   async escrowDepositHourly(input: PreparedEscrowHourlyDeposit, waitReceipt = true): Promise<DepositResponse> {
     const lastDepositTime = this.transactionStorage.get("lastHourlyDepositTimestamp");
-    console.log("Last hourly deposit time got");
 
     if (lastDepositTime && Date.now() - lastDepositTime < 30000) {
       throw new Error("You have recently submitted a deposit. Please wait before making another.");
     }
-    console.log("Last hourly deposit time checked");
     try {
       const data = await this.public.simulateContract({
         address: this.escrow,
@@ -1003,10 +995,8 @@ export class MidcontractProtocol {
       });
       const hash = await this.send({ ...data.request });
       this.transactionStorage.set("lastHourlyDepositTimestamp", Date.now());
-      console.log("Last hourly deposit time set");
       const receipt = await this.getTransactionReceipt(hash, waitReceipt);
       this.transactionStorage.delete("lastHourlyDepositTimestamp");
-      console.log("Last hourly deposit time deleted");
       return {
         id: hash,
         status: receipt ? receipt.status : "pending",
@@ -1305,12 +1295,10 @@ export class MidcontractProtocol {
 
   async escrowApproveHourly(input: ApproveInputHourly, waitReceipt = true): Promise<TransactionId> {
     const lastDepositTime = this.transactionStorage.get("lastHourlyDepositTimestamp");
-    console.log("Last hourly deposit time got ->", lastDepositTime);
 
     if (lastDepositTime && Date.now() - lastDepositTime < 30000) {
       throw new Error("You have recently submitted a deposit. Please wait before making another.");
     }
-    console.log("Last hourly deposit time checked");
     input.token = input.token || "MockUSDT";
     input.valueApprove = input.valueApprove || 0;
     const account = this.account;
@@ -1337,10 +1325,8 @@ export class MidcontractProtocol {
       });
       const hash = await this.send(request);
       this.transactionStorage.set("lastHourlyDepositTimestamp", Date.now());
-      console.log("Last hourly deposit time set");
       const receipt = await this.getTransactionReceipt(hash, waitReceipt);
       this.transactionStorage.delete("lastHourlyDepositTimestamp");
-      console.log("Last hourly deposit time deleted");
       return {
         id: hash,
         status: receipt ? receipt.status : "pending",
@@ -2571,12 +2557,6 @@ export class MidcontractProtocol {
 
       input.maxPriorityFeePerGas = maxPriorityFeePerGas;
       input.maxFeePerGas = maxFeePerGas;
-
-      const transactionPrice = ((Number(maxFeePerGas) / 1000000000) * Number(input.gas)) / 1000000000;
-      console.log("method -> ", input.functionName);
-      console.log("Max fee per gas -> ", maxFeePerGas);
-      console.log("Max priority fee per gas -> ", maxPriorityFeePerGas);
-      console.log("Transaction price -> ", transactionPrice);
     }
 
     return this.wallet.writeContract(input);

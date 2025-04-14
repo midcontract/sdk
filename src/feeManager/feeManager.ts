@@ -104,7 +104,6 @@ export class FeeManager {
     contractId = 0n
   ) {
     try {
-      console.log("RPC used for computeClaimableAmountAndFee-> ", this.public.transport["url"]);
       const result = await readContract(this.public, {
         address: this.feeManagerEscrow,
         abi: this.abi,
@@ -118,7 +117,6 @@ export class FeeManager {
         clientFee: Number(result[2]),
       };
     } catch (error) {
-      console.log("Calling via client:", this.public.transport["url"]);
       if (error instanceof ContractFunctionExecutionError) {
         throw new SimulateError(error.message);
       } else {
