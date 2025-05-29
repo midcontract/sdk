@@ -60,15 +60,19 @@ export class FeeManager {
     coverageFee: number,
     claimFee: number
   ): Promise<void> {
-    const BPS = await this.getBPS();
-    const { request } = await this.public.simulateContract({
-      address: this.feeManagerEscrow,
-      abi: this.abi,
-      account: this.account,
-      args: [escrowAddress, contractId, coverageFee * BPS, claimFee * BPS],
-      functionName: "setContractSpecificFees",
-    });
-    await this.send(request);
+    try {
+      const BPS = await this.getBPS();
+      const { request } = await this.public.simulateContract({
+        address: this.feeManagerEscrow,
+        abi: this.abi,
+        account: this.account,
+        args: [escrowAddress, contractId, coverageFee * BPS, claimFee * BPS],
+        functionName: "setContractSpecificFees",
+      });
+      await this.send(request);
+    } catch (e) {
+      throw new CoreMidcontractProtocolError(`Contract specific fees not supported: ${e}`);
+    }
   }
 
   async setInstanceFees(escrowAddress: Address, coverageFee: number, claimFee: number): Promise<void> {

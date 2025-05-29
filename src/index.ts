@@ -440,7 +440,8 @@ export class MidcontractProtocol {
   async escrowDepositAmount(
     amount: number,
     feeConfig: FeeConfig = 1,
-    tokenSymbol: SymbolToken = "MockUSDT"
+    tokenSymbol: SymbolToken = "MockUSDT",
+    contractId?: bigint
   ): Promise<DepositAmount> {
     const tokenData = this.dataToken(tokenSymbol);
     const convertedAmount = parseUnits(amount.toString(), tokenData.decimals);
@@ -454,7 +455,8 @@ export class MidcontractProtocol {
     const { totalDepositAmount, feeApplied } = await feeManager.computeDepositAmountAndFee(
       convertedAmount,
       feeConfig,
-      this.escrow
+      this.escrow,
+      contractId || undefined
     );
 
     return {
@@ -781,7 +783,12 @@ export class MidcontractProtocol {
     const amount = parseUnits(input.amount.toString(), token.decimals);
     const amountToClaim = parseUnits(String(input.amountToClaim || 0), token.decimals);
     const amountToWithdraw = parseUnits(String(input.amountToWithdraw || 0), token.decimals);
-    const { totalDepositAmount } = await this.escrowDepositAmount(input.amount, input.feeConfig, input.token);
+    const { totalDepositAmount } = await this.escrowDepositAmount(
+      input.amount,
+      input.feeConfig,
+      input.token,
+      input.contractId
+    );
 
     const status = input.status || DepositStatus.ACTIVE;
     await this.tokenRequireBalance(this.account.address, totalDepositAmount, input.token);
@@ -856,7 +863,8 @@ export class MidcontractProtocol {
       const { totalDepositAmount } = await this.escrowDepositAmount(
         Number(deposit.amount),
         deposit.feeConfig,
-        deposit.token
+        deposit.token,
+        escrowContractId
       );
       totalDepositToAllow += totalDepositAmount;
       deposit.status = deposit.status || DepositStatus.ACTIVE;
@@ -944,7 +952,8 @@ export class MidcontractProtocol {
     const { totalDepositAmount } = await this.escrowDepositAmount(
       prepaymentAmount ? Number(prepaymentAmount) : Number(deposit.amountToClaim),
       deposit.feeConfig,
-      tokenSymbol
+      tokenSymbol,
+      escrowContractId
     );
     const parsedPrepaymentAmount = parseUnits(String(prepaymentAmount || 0), token.decimals);
     const parsedAmountToClaim = parseUnits(String(deposit.amountToClaim || 0), token.decimals);
