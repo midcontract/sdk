@@ -1320,7 +1320,12 @@ export class MidcontractProtocol {
 
     const deposit = await this.getDepositListHourly(input.contractId, input.weekId);
 
-    const { totalDepositAmount } = await this.escrowDepositAmount(input.valueApprove, deposit.feeConfig, token.symbol);
+    const { totalDepositAmount } = await this.escrowDepositAmount(
+      input.valueApprove,
+      deposit.feeConfig,
+      token.symbol,
+      input.contractId
+    );
     await this.tokenRequireBalance(account.address, totalDepositAmount, input.token);
     await this.tokenRequireAllowance(account.address, totalDepositAmount, input.token);
 
